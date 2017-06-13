@@ -1,0 +1,46 @@
+{
+  "name": "pink",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Реализация «Пинк» от HTML Academy",
+  "devDependencies": {
+    "@htmlacademy/editorconfig-cli": "1.x",
+    "autoprefixer": "^7.1.1",
+    "grunt": "^1.0.1",
+    "grunt-browser-sync": "^2.2.0",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-imagemin": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-css-mqpacker": "^3.0.1",
+    "grunt-csscomb": "^3.1.1",
+    "grunt-csso": "^2.2.0",
+    "grunt-postcss": "^0.8.0",
+    "grunt-sass": "^2.0.0",
+    "grunt-svgmin": "^4.0.0",
+    "grunt-svgstore": "^1.0.0",
+    "load-grunt-tasks": "^3.5.2"
+  },
+  "scripts": {
+    "test": "editorconfig-cli",
+    "comb": "grunt csscomb:main && grunt csscomb:blocks",
+    "build": "grunt build",
+    "build-dev": "grunt build-dev",
+    "start": "npm run build-dev --force && grunt serve"
+  },
+  "editorconfig-cli": [
+    "*.html",
+    "*.json",
+    "*.js",
+    "js/**/*.js",
+    "img/**/*.svg",
+    "less/**/*.less"
+  ],
+  "engines": {
+    "node": "6.10"
+  },
+  "main": "Gruntfile.js",
+  "author": "Gosha Egorian",
+  "license": "ISC"
+}
