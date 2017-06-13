@@ -1,4 +1,4 @@
-Automation for grunt
+Front-end automation for grunt
 ================================
 
 ## Installation
@@ -14,23 +14,23 @@ npm i
 
 ## Structure
 
-build/
-| - [result of build tasks]
-fonts/
-| - [fonts files *.woff, *.woff2]
-html/
-| - [all *.html files]
-img/
-| - [images in *.gif, *.png, *.jpg, *.svg formats]
-| - icons/
-| - | - [*.svg icons]
-js/
-| - [scripts *.js files]
-sass/
-| - style.scss
-| - [global *.scss files]
-| - blocks/
-| - | - [BEM blocks *.scss files]
+- build/
+  - [result of build tasks]
+- fonts/
+  - [fonts files *.woff, *.woff2]
+- html/
+  - [all *.html files]
+- img/
+  - [images in *.gif, *.png, *.jpg, *.svg formats]
+  - icons/
+    - [*.svg icons]
+- js/
+  - [scripts *.js files]
+- sass/
+  - style.scss
+  - [global *.scss files]
+  - blocks/
+    - [BEM blocks *.scss files]
 
 ## Tasks
 
