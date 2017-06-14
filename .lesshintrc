@@ -1,0 +1,6 @@
+{
+    "fileExtensions": [".less"],
+
+    "zeroUnit": false,
+    "propertyOrdering": false
+}
