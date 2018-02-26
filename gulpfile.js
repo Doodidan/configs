@@ -125,7 +125,6 @@ function styles () {
     .pipe( csso() )
     .pipe( rename(function (path) {
       path.basename += ".min";
-      path.extname = ".css";
     }))
     .pipe( sourcemaps.write(".") )
     .pipe( gulp.dest("build/css") )
