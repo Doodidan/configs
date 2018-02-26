@@ -1,6 +1,6 @@
 {
   "name": "configs",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "description": "Configs for gulp postcss projects",
   "devDependencies": {
@@ -35,12 +35,12 @@
     "> 5%"
   ],
   "editorconfig-cli": [
-    "*.html",
     "*.json",
     "*.js",
-    "js/**/*.js",
-    "img/**/*.svg",
-    "css/**/*.css"
+    "sources/*.html",
+    "sources/js/**/*.js",
+    "sources/img/**/*.svg",
+    "sources/css/**/*.css"
   ],
   "main": "gulpfile.js",
   "author": "Gosha Egorian",
