@@ -26,10 +26,11 @@ npm i
   - js/
     - [scripts *.js files]
   - css/
-    - style.css
-    - [global *.css files]
+    - [main *.css files which will be compiled]
     - blocks/
       - [BEM blocks *.css files]
+    - globals/
+      - [global *.css files]
   - [all *.html files]
 
 ## Tasks
@@ -41,7 +42,7 @@ npm run test
 
 Improve *.css sources and give some advice running:
 ```
-npm run improve
+npm run comb
 ```
 
 Production build running:

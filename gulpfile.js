@@ -118,13 +118,16 @@ gulp
 
 function styles () {
 	return gulp
-		.src( "sources/css/style.css" )
+		.src( "sources/css/*.css" )
 		.pipe( plumber() )
     .pipe( sourcemaps.init() )
     .pipe( postcss(processors) )
     .pipe( csso() )
+    .pipe( rename(function (path) {
+      path.basename += ".min";
+      path.extname = ".css";
+    }))
     .pipe( sourcemaps.write(".") )
-    .pipe( rename("style.min.css") )
     .pipe( gulp.dest("build/css") )
     .pipe( server.stream() );
 };
