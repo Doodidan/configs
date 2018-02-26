@@ -1,13 +1,13 @@
-Front-end automation for grunt
+Front-end automation for gulp
 ================================
 
 ## Installation
 
 1. Install [Node.js](http://nodejs.org) (and [npm](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager) on Linux).
 
-3. Copy files to your project folder.
+2. Copy files to your project folder.
 
-2. Install dependencies by typing the following in a terminal (in project folder):
+3. Install dependencies by typing the following in a terminal (in project folder):
 ```
 npm i
 ```
@@ -16,21 +16,21 @@ npm i
 
 - build/
   - [result of build tasks]
-- fonts/
-  - [fonts files *.woff, *.woff2]
-- html/
+- sources/
+  - fonts/
+    - [fonts files *.woff, *.woff2]
+  - img/
+    - [images in *.gif, *.png, *.jpg, *.svg formats]
+    - icons/
+      - [*.svg icons]
+  - js/
+    - [scripts *.js files]
+  - css/
+    - style.css
+    - [global *.css files]
+    - blocks/
+      - [BEM blocks *.css files]
   - [all *.html files]
-- img/
-  - [images in *.gif, *.png, *.jpg, *.svg formats]
-  - icons/
-    - [*.svg icons]
-- js/
-  - [scripts *.js files]
-- sass/
-  - style.scss
-  - [global *.scss files]
-  - blocks/
-    - [BEM blocks *.scss files]
 
 ## Tasks
 
@@ -39,9 +39,9 @@ Travis test running:
 npm run test
 ```
 
-Csscomb *.scss running:
+Improve *.css sources and give some advice running:
 ```
-npm run comb
+npm run improve
 ```
 
 Production build running:
@@ -49,12 +49,7 @@ Production build running:
 npm run build
 ```
 
-Developer build running:
-```
-npm run build-dev
-```
-
-Brouser sync and watch tak running:
+Serve and file watch task running:
 ```
 npm run start
 ```
