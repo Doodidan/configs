@@ -13,14 +13,16 @@ var
   postcss      = require("gulp-postcss"),
   sourcemaps   = require("gulp-sourcemaps"),
   csso         = require("gulp-csso"),
-  csscomb      = require("gulp-csscomb"),
-  doiuse       = require('doiuse'),
+  doiuse       = require("doiuse"),
+
+  sorting      = require("postcss-sorting"),
 
   imagemin     = require("gulp-imagemin"),
   svgstore     = require("gulp-svgstore"),
   webp         = require("gulp-webp"),
 
-  uglify       = require("gulp-uglify");
+  uglify       = require("gulp-uglify"),
+  cssorder     = require("./cssorder").order;
 
 
 var processors = [
@@ -38,11 +40,11 @@ gulp
 function serve () {
   server
     .init({
-      server: "build/",
-      notify: false,
-      open: true,
-      cors: true,
-      ui: false
+      "server": "build/",
+      "notify": false,
+      "open": true,
+      "cors": true,
+      "ui": false
     });
 
   gulp
@@ -77,7 +79,7 @@ gulp
 function copy () {
   return gulp
     .src( "sources/fonts/**", {
-      base: "sources"
+      "base": "sources"
     })
     .pipe( plumber() )
     .pipe( gulp.dest("build") )
@@ -107,7 +109,7 @@ function sprite () {
     .src( "sources/img/icons/*.svg" )
     .pipe( plumber() )
     .pipe( svgstore({
-      inlineSvg: true
+      "inlineSvg": true
     }))
     .pipe( rename("sprite.svg") )
     .pipe( gulp.dest("build/img") )
@@ -137,11 +139,11 @@ function improve () {
   gulp
     .src( "sources/css/**/*.css" )
     .pipe( plumber() )
-    .pipe( csscomb() )
     .pipe( postcss([
+      sorting( cssorder ),
       doiuse({
-        ignoreFiles: ['**/normalize.css'],
-        onFeatureUsage: function (usageInfo) {
+        "ignoreFiles": ['**/normalize.css'],
+        "onFeatureUsage": function (usageInfo) {
           console.log(usageInfo.message);
         }
       })
