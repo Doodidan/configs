@@ -27,10 +27,9 @@
     "tiny-lr": "^1.1.1"
   },
   "scripts": {
-    "test": "editorconfig-cli && sass-lint -q -v sources/css/**/*.css --syntax scss",
+    "test": "editorconfig-cli && gulp improve && sass-lint -q -v sources/css/**/*.css --syntax scss",
     "build": "gulp build",
-    "start": "gulp serve",
-    "improve": "gulp improve"
+    "start": "gulp serve"
   },
   "browserslist": [
     "> 5%"
