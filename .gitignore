@@ -3,6 +3,7 @@
 *.ai
 *.log
 *.sublime*
-build/
+build_prod/
+build_dev/
 node_modules/
 Thumbs.db
