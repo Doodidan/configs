@@ -20,7 +20,7 @@ let
   doiuse       = require("doiuse"),
   sorting      = require("postcss-sorting"),
 // файл настроек сортировки css-свойств
-  cssorder     = require("./cssorder").order,
+  cssorder     = require("./cssorder"),
 
 // модули для картинок
   imagemin     = require("gulp-imagemin"),
