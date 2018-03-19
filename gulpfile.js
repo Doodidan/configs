@@ -78,7 +78,7 @@ let serve = {
       .watch(`${paths.source}js/**/*.js`), ["scripts_dev"];
     // html
     gulp
-      .watch(`${paths.source}*.+(html|php)`, ["html_dev"]);
+      .watch(`${paths.source}*.@(html|php)`, ["html_dev"]);
   }
 };
 
@@ -300,7 +300,7 @@ let html = {
   // общее
   main: function () {
     return gulp
-      .src( `${paths.source}*.+(html|php)` )
+      .src( `${paths.source}*.@(html|php)` )
       .pipe( plumber() );
   },
   // разработка
@@ -328,8 +328,7 @@ let improve = {
     return gulp
       .src([
         `${paths.source}css/**/*.css`,
-        // `!**/normalize{.min}?.{css,scss,sass,less}`
-        `!**/normalize?(.min).+(css|scss|sass|less)`
+        `!**/normalize?(.min).@(css|scss|sass|less)`
       ])
       .pipe( plumber() )
       .pipe( postcss([
