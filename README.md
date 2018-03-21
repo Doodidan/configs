@@ -42,7 +42,7 @@ npm run test
 
 Improve *.css sources and give some advice running:
 ```
-npm run comb
+npm run improve
 ```
 
 Production build running:
