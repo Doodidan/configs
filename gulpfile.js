@@ -1,47 +1,52 @@
-"use strict"
+'use strict'
 
 let
 // подключение
 
 // общие модули галпа
-  gulp         = require("gulp"),
-  plumber      = require("gulp-plumber"),
-  rename       = require("gulp-rename"),
-  del          = require("del"),
-  run          = require("run-sequence"),
+  gulp         = require('gulp'),
+  plumber      = require('gulp-plumber'),
+  rename       = require('gulp-rename'),
+  del          = require('del'),
 
 // модули для сервера
-  server       = require("browser-sync").create(),
+  server       = require('browser-sync').create(),
 
 // модули для css
-  postcss      = require("gulp-postcss"),
-  sourcemaps   = require("gulp-sourcemaps"),
-  csso         = require("gulp-csso"),
-  doiuse       = require("doiuse"),
-  sorting      = require("postcss-sorting"),
+  postcss      = require('gulp-postcss'),
+  sourcemaps   = require('gulp-sourcemaps'),
+  csso         = require('gulp-csso'),
+  doiuse       = require('doiuse'),
+  sorting      = require('postcss-sorting'),
 // файл настроек сортировки css-свойств
-  cssorder     = require("./cssorder"),
+  cssorder     = require('./cssorder'),
 
 // модули для картинок
-  imagemin     = require("gulp-imagemin"),
-  svgstore     = require("gulp-svgstore"),
-  injectSvg    = require("gulp-inject-svg"),
+  imagemin     = require('gulp-imagemin'),
+  svgstore     = require('gulp-svgstore'),
+  injectSvg    = require('gulp-inject-svg'),
 
 // модули для js
-  uglify       = require("gulp-uglify");
+  uglify       = require('gulp-uglify-es').default;
+
+// поддержка однострочных комментариев в postcss
+require('postcss-comment/hookRequire');
 
 // объект используемых для сборки модулей postcss
 let processors = [
-  require("precss"),
-  require("cssnext"),
-  require("autoprefixer")
+  require('precss'),
+  require('cssnext'),
+  require('postcss-calc'),
+  require('autoprefixer'),
+  require('css-mqpacker'),
+  require('postcss-automath')
 ];
 
 // пути, используемые при сборке
 let paths = {
-  source: "./sources/",
-  dev: "./build_dev/",
-  prod: "./build_prod/"
+  source: './sources/',
+  dev: './build_dev/',
+  prod: './build_prod/'
 };
 
 // запуск сервера (синхронизация браузера)
@@ -51,34 +56,34 @@ let serve = {
     server
       .init({
         server: paths.dev,
-        "notify": false,
-        "open": true,
-        "cors": true,
-        "ui": false
+        'notify': false,
+        'open': true,
+        'cors': true,
+        'ui': false
       });
 
     // отслеживание изменений файлов
     // css
     gulp
-      .watch(`${paths.source}css/**/*.css`, ["styles_dev"]);
+      .watch(`${paths.source}css/**/*.css`, ['styles_dev']);
     // файлы без изменений (шрифты)
     gulp
-      .watch(`${paths.source}fonts/**`, ["copy_dev"]);
+      .watch(`${paths.source}fonts/**`, ['copy_dev']);
     // картинки
     gulp
       .watch([
         `${paths.source}img/**`,
         `!${paths.source}img/icons/**/*.svg`
-      ], ["img_dev"]);
+      ], ['img_dev']);
     // свг-иконки (спрайт) + инъекция в html
     gulp
-      .watch(`${paths.source}img/icons/**/*.svg`, ["html_dev"]);
+      .watch(`${paths.source}img/icons/**/*.svg`, ['html_dev']);
     // скрипты
     gulp
-      .watch(`${paths.source}js/**/*.js`), ["scripts_dev"];
+      .watch(`${paths.source}js/**/*.js`, ['scripts_dev']);
     // html
     gulp
-      .watch(`${paths.source}*.@(html|php)`, ["html_dev"]);
+      .watch(`${paths.source}*.@(html|php)`, ['html_dev']);
   }
 };
 
@@ -157,7 +162,7 @@ let copy = {
   main: function () {
     return gulp
       .src( `${paths.source}fonts/**`, {
-        "base": paths.source
+        'base': paths.source
       })
       .pipe( plumber() );
   },
@@ -191,10 +196,10 @@ let styles = {
       .pipe( postcss(processors) )
       // переименование, чтобы нормально работал html
       .pipe( rename(function (path) {
-        path.basename += ".min";
+        path.basename += '.min';
       }))
       // запись конечных sourcemaps
-      .pipe( sourcemaps.write(".") )
+      .pipe( sourcemaps.write('.') )
       .pipe( gulp.dest(`${paths.dev}css/`) )
       .pipe( server.stream() );
   },
@@ -207,7 +212,7 @@ let styles = {
       .pipe( csso() )
       // переименование
       .pipe( rename(function (path) {
-        path.basename += ".min";
+        path.basename += '.min';
       }))
       .pipe( gulp.dest(`${paths.prod}css/`) );
   }
@@ -224,6 +229,9 @@ let scripts = {
   // разработка
   dev: function () {
     return scripts.main()
+      .pipe( rename(function (path) {
+        path.basename += '.min';
+      }))
       .pipe( gulp.dest(`${paths.dev}js`) )
       .pipe( server.stream() );
   },
@@ -231,6 +239,9 @@ let scripts = {
   prod: function () {
     return scripts.main()
       .pipe( uglify() )
+      .pipe( rename(function (path) {
+        path.basename += '.min';
+      }))
       .pipe( gulp.dest(`${paths.prod}js`) );
   }
 };
@@ -268,7 +279,7 @@ let img = {
 // свг-спрайт
 let sprite = {
   // название файла спрайта
-  filename: "sprite.svg",
+  filename: 'sprite.svg',
   // общее
   main: function () {
     return gulp
@@ -278,7 +289,7 @@ let sprite = {
         imagemin.svgo()
       ]))
       .pipe( svgstore({
-        "inlineSvg": true
+        'inlineSvg': true
       }))
       .pipe( rename( sprite.filename ) );
   },
@@ -336,7 +347,7 @@ let improve = {
         sorting( cssorder ),
         // проверка свойств на поддержку в браузерах
         doiuse({
-          "onFeatureUsage": function (usageInfo) {
+          'onFeatureUsage': function (usageInfo) {
             console.log(usageInfo.message);
           }
         })
@@ -349,92 +360,92 @@ let improve = {
 // регистрация тасков
 // сервер
 gulp
-  .task("serve", ["build_dev"], serve.dev);
+  .task('serve', ['build_dev'], serve.dev);
 
 // очистка
 gulp
-  .task("clean_dev_fonts", clean.dev.fonts);
+  .task('clean_dev_fonts', clean.dev.fonts);
 gulp
-  .task("clean_dev_styles", clean.dev.styles);
+  .task('clean_dev_styles', clean.dev.styles);
 gulp
-  .task("clean_dev_js", clean.dev.js);
+  .task('clean_dev_js', clean.dev.js);
 gulp
-  .task("clean_dev_img", clean.dev.img);
+  .task('clean_dev_img', clean.dev.img);
 gulp
-  .task("clean_dev_sprite", clean.dev.sprite);
+  .task('clean_dev_sprite', clean.dev.sprite);
 gulp
-  .task("clean_dev_html", clean.dev.html);
+  .task('clean_dev_html', clean.dev.html);
 gulp
-  .task("clean_dev", clean.dev.full);
+  .task('clean_dev', clean.dev.full);
 gulp
-  .task("clean_prod_fonts", clean.prod.fonts);
+  .task('clean_prod_fonts', clean.prod.fonts);
 gulp
-  .task("clean_prod_styles", clean.prod.styles);
+  .task('clean_prod_styles', clean.prod.styles);
 gulp
-  .task("clean_prod_js", clean.prod.js);
+  .task('clean_prod_js', clean.prod.js);
 gulp
-  .task("clean_prod_img", clean.prod.img);
+  .task('clean_prod_img', clean.prod.img);
 gulp
-  .task("clean_prod_sprite", clean.prod.sprite);
+  .task('clean_prod_sprite', clean.prod.sprite);
 gulp
-  .task("clean_prod_html", clean.prod.html);
+  .task('clean_prod_html', clean.prod.html);
 gulp
-  .task("clean_prod", clean.prod.full);
+  .task('clean_prod', clean.prod.full);
 gulp
-  .task("clean", clean.full);
+  .task('clean', clean.full);
 
 // копирование
 gulp
-  .task("copy_dev", ["clean_dev_fonts"], copy.dev);
+  .task('copy_dev', ['clean_dev_fonts'], copy.dev);
 gulp
-  .task("copy_prod", ["clean_prod_fonts"], copy.prod);
+  .task('copy_prod', ['clean_prod_fonts'], copy.prod);
 
 // стили
 gulp
-  .task("styles_dev", ["clean_dev_styles"], styles.dev);
+  .task('styles_dev', ['clean_dev_styles'], styles.dev);
 gulp
-  .task("styles_prod", ["clean_prod_styles"], styles.prod);
+  .task('styles_prod', ['clean_prod_styles'], styles.prod);
 
 // скрипты
 gulp
-  .task("scripts_dev", ["clean_dev_js"], scripts.dev);
+  .task('scripts_dev', ['clean_dev_js'], scripts.dev);
 gulp
-  .task("scripts_prod", ["clean_prod_js"], scripts.prod);
+  .task('scripts_prod', ['clean_prod_js'], scripts.prod);
 
 // картинки
 gulp
-  .task("img_dev", ["clean_dev_img"], img.dev);
+  .task('img_dev', ['clean_dev_img'], img.dev);
 gulp
-  .task("img_prod", ["clean_prod_img"], img.prod);
+  .task('img_prod', ['clean_prod_img'], img.prod);
 gulp
-  .task("sprite_dev", ["clean_dev_sprite"], sprite.dev);
+  .task('sprite_dev', ['clean_dev_sprite'], sprite.dev);
 gulp
-  .task("sprite_prod", ["clean_prod_sprite"], sprite.prod);
+  .task('sprite_prod', ['clean_prod_sprite'], sprite.prod);
 
 // html
 gulp
-  .task("html_dev", ["clean_dev_html", "sprite_dev"], html.dev);
+  .task('html_dev', ['clean_dev_html', 'sprite_dev'], html.dev);
 gulp
-  .task("html_prod", ["clean_prod_html", "sprite_prod"], html.prod);
+  .task('html_prod', ['clean_prod_html', 'sprite_prod'], html.prod);
 
 // анализ
 gulp
-  .task("improve", improve.dev);
+  .task('improve', improve.dev);
 
 // такси сборки (составные, последовательные)
 gulp
-  .task("build_dev", [
-    "copy_dev",
-    "styles_dev",
-    "scripts_dev",
-    "img_dev",
-    "html_dev"
+  .task('build_dev', [
+    'copy_dev',
+    'styles_dev',
+    'scripts_dev',
+    'img_dev',
+    'html_dev'
   ]);
 gulp
-  .task("build_prod", [
-    "copy_prod",
-    "styles_prod",
-    "scripts_prod",
-    "img_prod",
-    "html_prod"
+  .task('build_prod', [
+    'copy_prod',
+    'styles_prod',
+    'scripts_prod',
+    'img_prod',
+    'html_prod'
   ]);

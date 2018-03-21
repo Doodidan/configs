@@ -1,12 +1,13 @@
 {
   "name": "configs",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "private": true,
   "description": "Configs for gulp postcss projects",
   "devDependencies": {
     "@htmlacademy/editorconfig-cli": "1.x",
     "autoprefixer": "^8.0.0",
     "browser-sync": "^2.23.6",
+    "css-mqpacker": "^6.0.2",
     "cssnext": "^1.8.4",
     "del": "^3.0.0",
     "doiuse": "^4.0.0",
@@ -19,22 +20,23 @@
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-svgstore": "^6.1.1",
-    "gulp-uglify": "^3.0.0",
+    "gulp-uglify-es": "^1.0.1",
+    "postcss-automath": "^1.0.1",
+    "postcss-calc": "^6.0.1",
+    "postcss-comment": "^2.0.0",
     "postcss-sorting": "^3.1.0",
-    "precss": "^3.1.1",
-    "run-sequence": "^2.2.1",
+    "precss": "^3.1.2",
     "sass-lint": "^1.12.1"
   },
   "scripts": {
-    "test": "gulp improve && sass-lint -q -v sources/css/**/*.css --syntax scss && editorconfig-cli",
+    "improve": "gulp improve",
+    "test": "editorconfig-cli",
+    "sass-lint": "sass-lint -q -v sources/css/**/*.css --syntax scss",
     "build": "gulp build_prod",
     "build-dev": "gulp build_dev",
     "start": "gulp serve",
     "clean": "gulp clean"
   },
-  "browserslist": [
-    "> 5%"
-  ],
   "editorconfig-cli": [
     "*.json",
     "*.js",

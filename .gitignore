@@ -3,6 +3,7 @@
 *.ai
 *.log
 *.sublime*
+design/
 build_prod/
 build_dev/
 node_modules/
