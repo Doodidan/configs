@@ -44,10 +44,17 @@ let processors = [
 
 // пути, используемые при сборке
 let paths = {
-  source: './sources/',
-  dev: './build_dev/',
-  prod: './build_prod/'
+  source: 'sources/',
+  dev: 'build_dev/',
+  prod: 'build_prod/'
 };
+
+// function for minifying name
+function minName (path) {
+  if (path.basename.slice(-4) !== '.min') {
+    path.basename += '.min';
+  }
+}
 
 // запуск сервера (синхронизация браузера)
 let serve = {
@@ -195,9 +202,7 @@ let styles = {
       // сборка стилей через postcss
       .pipe( postcss(processors) )
       // переименование, чтобы нормально работал html
-      .pipe( rename(function (path) {
-        path.basename += '.min';
-      }))
+      .pipe( rename(minName) )
       // запись конечных sourcemaps
       .pipe( sourcemaps.write('.') )
       .pipe( gulp.dest(`${paths.dev}css/`) )
@@ -211,9 +216,7 @@ let styles = {
       // минификация css
       .pipe( csso() )
       // переименование
-      .pipe( rename(function (path) {
-        path.basename += '.min';
-      }))
+      .pipe( rename(minName) )
       .pipe( gulp.dest(`${paths.prod}css/`) );
   }
 };
@@ -229,9 +232,7 @@ let scripts = {
   // разработка
   dev: function () {
     return scripts.main()
-      .pipe( rename(function (path) {
-        path.basename += '.min';
-      }))
+      .pipe( rename(minName) )
       .pipe( gulp.dest(`${paths.dev}js`) )
       .pipe( server.stream() );
   },
@@ -239,9 +240,7 @@ let scripts = {
   prod: function () {
     return scripts.main()
       .pipe( uglify() )
-      .pipe( rename(function (path) {
-        path.basename += '.min';
-      }))
+      .pipe( rename(minName) )
       .pipe( gulp.dest(`${paths.prod}js`) );
   }
 };
